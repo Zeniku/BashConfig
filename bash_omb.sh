@@ -1,3 +1,22 @@
+export OSH=/root/.oh-my-bash
+
+OSH_THEME="powerline-multiline"
+
+completions=(
+  git
+  composer
+)
+
+aliases=(
+)
+
+plugins=(
+  git
+  bashmarks
+)
+
+source "$OSH"/oh-my-bash.sh
+
 CM_GIT='git'
 SCM_GIT_CHAR='\e[1m\e[38;5;8m '
 SCM_GIT_DETACHED_CHAR='⌿'
@@ -18,6 +37,7 @@ SCM_THEME_PROMPT_COLOR=${SCM_THEME_PROMPT_CLEAN_COLOR}
 CWD_THEME_PROMPT_COLOR=8
 LAST_STATUS_THEME_PROMPT_COLOR=196
 CLOCK_THEME_PROMPT_COLOR=8
+
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
