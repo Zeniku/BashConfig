@@ -12,6 +12,10 @@ alias bu='chmod +x /root/desk/shells/build.sh && /root/desk/shells/build.sh'
 alias mc='git add . && git commit -m'
 alias ra='ranger'
 
-for tk in ${termuxkeys[@]}; do
-  alias ":$tk"='export ctermuxkey='$tk' && source $HOME/shells/set-termux-extra-keys.sh'
-done
+cl(){
+  cd "$@" && lsd --group-dirs first --size -lhA;
+}
+
+cs(){
+  cl "$(dirname "$(find ./ -name "$@")")"
+}
