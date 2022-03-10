@@ -1,1 +1,3 @@
 # BashConfig
+
+bash stuff

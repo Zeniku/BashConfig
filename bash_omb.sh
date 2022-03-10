@@ -5,6 +5,7 @@ OSH_THEME="powerline-multiline"
 completions=(
   git
   composer
+  npm
 )
 
 aliases=(

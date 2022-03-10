@@ -19,3 +19,7 @@ cl(){
 cs(){
   cl "$(dirname "$(find ./ -name "$@")")"
 }
+
+cn(){
+  cd "$(dirname "$@")" && nvim "$(basename "$@")"
+}
