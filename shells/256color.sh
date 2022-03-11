@@ -1,0 +1,123 @@
+function print_help {
+    echo -e "256color.sh: 256 colors!\n\t./256color.sh [OPTIONS]\n\n\t--help -h: Show this help message\n\t--background -b: Show background instead of foreground\n\t--use/-u [COLORS]: Remap from COLORS to RGB.\n\t\t(COLORS can be RGB, RXB, GRB, etc)";
+    exit 0;
+}
+
+BG=0
+Rsig=0
+Gsig=0
+Bsig=0
+RGB=RGB
+RGBshuffle=RGB
+party=0
+SIGNIFICANCE=(36 6 1)
+while [[ $1 != "" ]]; do
+    case $1 in
+        --help|-h)
+            print_help
+            shift;;
+        --background|-b)
+            BG=1
+            shift;;
+        --use|-u)
+            if [[ "$2" != "ASB" ]]; then
+                RGBshuffle=$2
+            else
+                party=1
+            fi
+            shift;shift;;
+        --default)
+            shift;;
+    esac
+done
+
+function repeat_spaces {
+    for ((i = 0; i < $1; i++)); do
+        echo -n " "
+    done
+}
+
+function display_256 {
+    if [[ party -eq 1 ]]; then
+        col=$(($RANDOM%256))
+    else
+        col=$1
+    fi
+    if [ $BG -eq 1 ]; then
+        echo -en "\e[48;5;"$col"m"
+    else
+        echo -en "\e[38;5;"$col"m"
+    fi
+        repeat_spaces $((3-($col>99)-($col>9)))
+        echo -n "$col"
+        echo -en " \e[0m"
+}
+
+function display_bin {
+    if [ $(($1%2)) -eq 1 ]; then
+        display_256 1
+    else
+        echo -en "     "
+    fi
+    if [ $((($1>>1)%2)) -eq 1 ]; then
+        display_256 2
+    else
+        echo -en "     "
+    fi
+    if [ $((($1>>2)%2)) -eq 1 ]; then
+        display_256 4
+    else
+        echo -en "     "
+    fi
+    if [ $BG -eq 1 ]; then
+        echo -en "     "
+    fi
+    display_256 $1
+    display_256 $(($1+8))
+    echo
+}
+
+function RGB_parse {
+    ssrch=$1
+    srch=${RGB%%$ssrch*}
+    result=${SIGNIFICANCE[${#srch}]}
+    echo -n ${result:=0}
+}
+
+# why
+function get_range {
+    echo -n $(seq 0 $((5*($1>0))))
+}
+
+# parse RGB
+Rsig=$(RGB_parse ${RGBshuffle:0:1})
+Gsig=$(RGB_parse ${RGBshuffle:1:1})
+Bsig=$(RGB_parse ${RGBshuffle:2:1})
+
+# 0 - 15
+for ii in {0..7}; do
+    display_bin $ii
+done
+
+echo
+
+# 16 - 231
+for R in $(get_range $Rsig) ; do
+    for G in $(get_range $Gsig) ; do
+        for B in $(get_range $Bsig) ; do
+            display_256 $((16+$Rsig*R+$Gsig*G+$Bsig*B))
+        done
+        echo
+    done
+    echo -e "\n"
+done
+
+# 232 - 255
+for A in {0..2}; do
+    for B in {0..7}; do
+        display_256 $((232+A*8+B))
+    done
+    echo
+done
+
+echo
