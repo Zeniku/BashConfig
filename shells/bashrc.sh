@@ -11,7 +11,8 @@ bashStuff=(
 )
 
 for f in ${bashStuff[@]}; do
-  source ~/.config/bash/$f.sh
+  if [[ -f ~/.config/bash/$f.sh ]]; then
+    source ~/.config/bash/$f.sh
+  fi
 done
-
 # source ~/lscolors.sh

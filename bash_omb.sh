@@ -18,7 +18,7 @@ plugins=(
 
 source "$OSH"/oh-my-bash.sh
 
-CM_GIT='git'
+SCM_GIT='git'
 SCM_GIT_CHAR='\e[1m\e[38;5;8m '
 SCM_GIT_DETACHED_CHAR='⌿'
 SCM_GIT_AHEAD_CHAR=""

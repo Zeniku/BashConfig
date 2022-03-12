@@ -8,7 +8,6 @@ alias tree='ls --tree'
 
 alias br='source $HOME/.bashrc'
 alias mc='git add . && git commit -m'
-alias ra='ranger'
 
 cl(){
   cd "$@" && lsd --group-dirs first --size -lhA;
