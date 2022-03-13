@@ -20,3 +20,7 @@ cs(){
 cn(){
   cl "$(dirname "$@")" && nvim "$(basename "$@")"
 }
+
+csn(){
+  cs "$@" && nvim "$@";
+}
