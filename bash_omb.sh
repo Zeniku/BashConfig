@@ -1,5 +1,5 @@
 if [[ -d ~/.oh-my-bash ]]; then
-  export OSH=/root/.oh-my-bash
+  export OSH=$HOME/.oh-my-bash
 
   OSH_THEME="powerline-multiline"
 
