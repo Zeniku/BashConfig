@@ -2,7 +2,7 @@
 cd ~
 
 # Get command-line tools for Android SDK
-wget https://dl.google.com/android/repository/commandlinetools-linux-7302050_latest.zip
+wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
 unzip commandlinetools-linux-*.zip -d android/
 
 # Export android root environment variable
