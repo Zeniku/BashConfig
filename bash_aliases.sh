@@ -1,16 +1,18 @@
 eval "$(dircolors)"
 
-alias ls='lsd --group-dirs first'
-alias ll='ls --size -lh'
-alias l='ls --size -lhA'
+alias ld='lsd --group-dirs first'
+alias ll='ld --size -lh'
+alias l='ld --size -lhA'
 alias las='l -S --total-size'
-alias tree='ls --tree'
+alias tree='ld --tree'
 
 alias br='source $HOME/.bashrc'
 alias mc='git add . && git commit -m'
 
 cl(){
-  cd "$@" && lsd --group-dirs first --size -lhA;
+  if [[ ! "." == "$@" ]]; then
+    cd "$@" && l;
+  fi
 }
 
 cs(){
@@ -18,9 +20,15 @@ cs(){
 }
 
 cn(){
-  cl "$(dirname "$@")" && nvim "$(basename "$@")"
+  if [[ -f "$@" ]]; then
+    cl "$(dirname "$@")" && nvim "$(basename "$@")"
+  elif [[ -d "$@" ]]; then
+    cl "$@" && nvim "$@"
+  else
+    nvim "$@"
+  fi
 }
 
 csn(){
-  cs "$@" && nvim "$@";
+  cn $(find ./ -name "$@")
 }
