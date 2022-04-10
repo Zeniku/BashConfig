@@ -5,14 +5,16 @@ case $- in
 esac
 
 bashStuff=(
-  bash_omb
-  bash_aliases
-  bash_exports
+  omb
+  aliases
+  exports
 )
 
 for f in ${bashStuff[@]}; do
-  if [[ -f ~/.config/bash/$f.sh ]]; then
-    source ~/.config/bash/$f.sh
+  file=~/.config/bash/bash_$f.sh
+  if [[ -f $file ]]; then
+    source $file
   fi
 done
+
 # source ~/lscolors.sh

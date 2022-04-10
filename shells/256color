@@ -1,3 +1,5 @@
+#!/bin/bash
+
 function print_help {
     echo -e "256color.sh: 256 colors!\n\t./256color.sh [OPTIONS]\n\n\t--help -h: Show this help message\n\t--background -b: Show background instead of foreground\n\t--use/-u [COLORS]: Remap from COLORS to RGB.\n\t\t(COLORS can be RGB, RXB, GRB, etc)";
     exit 0;

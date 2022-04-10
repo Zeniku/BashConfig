@@ -6,6 +6,11 @@ if [[ -d ~/desk/java/ ]]; then
   export JAVA_HOME=~/desk/java/jdk-16.0.2+7
   export ANDROID_HOME=~/desk/java/android
   if [[ -d $JAVA_HOME && -d $ANDROID_HOME ]]; then
-    export PATH=$OGPATH:$JAVA_HOME/bin/:$ANDROID_HOME/build-tools/30.0.3/:~/.config/bash/shells
+    export OGPATH=$OGPATH:$JAVA_HOME/bin/:$ANDROID_HOME/build-tools/30.0.3/
   fi
 fi
+if [[ -d ~/.config/bash/shells/ ]]; then
+  export OGPATH=$OGPATH:~/.config/bash/shells/
+fi
+
+export PATH=$OGPATH
