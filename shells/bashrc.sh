@@ -17,4 +17,8 @@ for f in ${bashStuff[@]}; do
   fi
 done
 
+if [[ -f "$(which rxfetch)" ]]; then
+  clear
+  rxfetch
+fi
 # source ~/lscolors.sh

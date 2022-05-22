@@ -1,0 +1,187 @@
+#!/usr/bin/env bash
+
+magenta="\033[1;35m"
+green="\033[1;32m"
+white="\033[1;37m"
+blue="\033[1;34m"
+red="\033[1;31m"
+black="\033[1;40;30m"
+yellow="\033[1;33m"
+cyan="\033[1;36m"
+reset="\033[0m"
+bgyellow="\033[1;43;33m"
+bgwhite="\033[1;47;37m"
+c0=${reset}
+c1=${magenta}
+c2=${green}
+c3=${white}
+c4=${blue}
+c5=${red}
+c6=${yellow}
+c7=${cyan}
+c8=${black}
+c9=${bgyellow}
+c10=${bgwhite}
+
+function getCodeName() {
+  codename="$(getprop ro.product.board)"
+}
+
+function getClientBase() {
+  client_base="$(getprop ro.com.google.clientidbase)"
+}
+
+function getModel() {
+  model="$(getprop ro.product.brand) $(getprop ro.product.model)"
+}
+
+function getDistro() {
+  os="$(uname -o) $(uname -m)"
+}
+
+function getKernel() {
+  kernel="$(uname -r)"
+}
+
+function getTotalPackages() {
+  package_manager="$(which {apt,dpkg} 2>/dev/null | grep -v "not found" | awk -F/ 'NR==1{print $NF}')"
+  case "${package_manager}" in
+    "apt" )
+      packages=$(apt list --installed 2>/dev/null | wc -l)
+    ;;
+    
+    "dpkg" )
+      packages=$(dpkg-query -l | wc -l)
+    ;;
+    
+    "" )
+      packages="Unknown"
+    ;;
+  esac
+}
+
+function getShell() {
+  shell="$(basename $SHELL)"
+}
+
+function getUptime() {
+  uptime="$(uptime --pretty | sed 's/up//')"
+}
+
+function getMemoryUsage() {
+  #memory="$(free --mega | sed -n -E '2s/^[^0-9]*([0-9]+) *([0-9]+).*/'"${space}"'\2 \/ \1MB/p')"
+  _MEM="Mem:"
+  _GREP_ONE_ROW="$(free --gibi | grep "${_MEM}")"
+  _TOTAL="$(echo ${_GREP_ONE_ROW} | awk '{print $2}')"
+  _USED="$(echo ${_GREP_ONE_ROW} | awk '{print $3}')"
+
+  memory="${_USED}GB / ${_TOTAL}GB"
+}
+
+function getDiskUsage() {
+
+  _GREP_ONE_ROW="$(df -h / | grep / )"
+
+  if [ $(uname -o) = Android ]; then
+    _GREP_ONE_ROW="$(df -h | grep /data)"
+	fi
+
+  _SIZE="$(echo "${_GREP_ONE_ROW}" | awk '{print $2}')"
+  _USED="$(echo "${_GREP_ONE_ROW}" | awk '{print $3}')"
+  _AVAIL="$(echo ${_GREP_ONE_ROW} | awk '{print $4}')"
+  _USE="$(echo ${_GREP_ONE_ROW} | awk '{print $5}' | sed 's/%//')"
+
+  _MOUNTED="$(echo ${_GREP_ONE_ROW} | awk '{print $6}')"
+
+  storage="${_USED}B / ${_SIZE}B = ${_AVAIL}B (${_USE}%)"
+
+  max_usage=90
+  bar_width=10 #less number high porformance?
+  dim="\e[2m"
+  # get disk usage
+  used_width=$((($_USE*$bar_width)/100))
+  # color is green if usage < max_usage, else red
+  if [ "${_USE}" -ge "${max_usage}" ]; then
+    col=${c5}
+  else
+    col=${c2}
+  fi
+
+  bar="${c0}[${col}"
+  for ((i=0; i<$used_width; i++)); do
+    bar+="▬▬▬" #3 char so ll be 30 char length
+  done
+  # print dimmmed bar until end
+  bar+="${c3}${dim}"
+  for ((i=$used_width; i<$bar_width; i++)); do
+    bar+="---"
+  done
+  bar+="${c0}]"
+}
+
+function symbols(){
+  # probably better than typing all ━━━ manually
+  # plus you can add more colors
+  colors=(${c1} ${c2} ${c3} ${c4} ${c5} ${c6} ${c7})
+
+  colorLine=${c0}
+  for i in ${colors[@]}; do
+    colorLine+="$i━━━"
+  done
+  colorLine+=${c0}
+
+  # seperated it because the header code looks neater
+
+  #echo -e "     •_•    "
+  #echo -e "     oo|    "
+  #echo -e "    / '\'   "
+  #echo -e "   (\_;/)   "
+  penguin=(
+    "  ${c3}•${c8}_${c3}•${c0} "
+    "  ${c9}oo${c8}|${c0} "
+    " ${c8}/${c10} ${c8}'\'${c0}"
+    "${c9}(${c8}\_;/${c9})${c0}"
+  )
+
+  # symbols
+  # probably best if i combine the three symbols    
+  # but header i know pointless
+  sym=(                                          
+    "${c1}r${c2}x${c7}f${c4}e${c5}t${c6}c${c7}h${c0}"
+    "${c5}${c0}"
+    "${c6}${c0}"
+    "${c7}${c0}"
+  )
+}
+
+function main() {
+  getCodeName
+  getClientBase
+  getModel
+  getDistro
+  getKernel
+  getTotalPackages
+  getShell
+  getUptime
+  getMemoryUsage
+  getDiskUsage
+  symbols
+}
+
+main
+
+echo -e "\n\n"
+echo -e "  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
+echo -e "  ┃ ${sym[0]}          ${sym[1]}  ${sym[2]}  ${sym[3]} ┃  ${codename}${c5}@${c0}${client_base}"
+echo -e "  ┣━━━━━━━━━━━━━━━━━━━━━━━━━━┫"
+echo -e "  ┃                          ┃  ${c1}phone${c0}  ${model}"
+echo -e "  ┃          ${penguin[0]}          ┃  ${c2}os${c0}     ${os}"
+echo -e "  ┃          ${penguin[1]}          ┃  ${c7}ker${c0}    ${kernel}"
+echo -e "  ┃          ${penguin[2]}          ┃  ${c4}pkgs${c0}   ${packages}"
+echo -e "  ┃          ${penguin[3]}          ┃  ${c5}sh${c0}     ${shell}"
+echo -e "  ┃                          ┃  ${c6}up${c0}    ${uptime}"
+echo -e "  ┃                          ┃  ${c1}ram${c0}    ${memory}"
+echo -e "  ┃     android ${c1}${c0} termux     ┃  ${c2}disk${c0}   ${storage}"
+echo -e "  ┃                          ┃  ${bar}"
+echo -e "  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━┛  ${colorLine}"
+echo -e "\n\n"
