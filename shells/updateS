@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd
+Dir='Caeruleum'
+cp -r /storage/emulated/0/Download/Cerebellum/sprites ~/Desk/$Dir/assets/
+cd

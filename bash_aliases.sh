@@ -1,8 +1,8 @@
 eval "$(dircolors)"
 
 alias ld='lsd --group-dirs first'
-alias ll='ld --size -lh'
-alias l='ld --size -lhA'
+alias ll='ld --size default -lh'
+alias l='ld --size default -lhA'
 alias las='l -S --total-size'
 alias tree='ld --tree'
 

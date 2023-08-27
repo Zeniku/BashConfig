@@ -1,9 +1,10 @@
 #!/bin/bash
 
+
 cd
-Dir='HeavyMachineryJava'
-cd ~/desk/Zeniku/$Dir
+Dir='Caeruleum'
+cd ~/Desk/$Dir
 chmod +x ./gradlew && ./gradlew deploy
 git add .
-cp -p ~/desk/Zeniku/$Dir/build/libs/$Dir.jar /sdcard/Download
+cp -p ~/Desk/$Dir/build/libs/$Dir.jar /storage/emulated/0/Android/data/io.anuke.mindustry/files/mods/
 cd
