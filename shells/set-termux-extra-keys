@@ -2,7 +2,7 @@
 # $tPath is .termux path
 # $ctermuxkey is currenttermuxkey
 # backup
-export $tPath = "~/desk/symlinks/termux/.termux/"
+export $tPath = "~/.termux"
 
 if [ ! -f $tPath/termux.backup.properties ]; then
   cp $tPath/termux.properties $tPath/termux.backup.properties

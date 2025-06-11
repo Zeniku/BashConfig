@@ -6,5 +6,5 @@ Dir='Caeruleum'
 cd ~/Desk/$Dir
 chmod +x ./gradlew && ./gradlew deploy
 git add .
-cp -p ~/Desk/$Dir/build/libs/$Dir.jar /storage/emulated/0/Android/data/io.anuke.mindustry/files/mods/
+cp -p ~/Desk/$Dir/build/libs/$Dir.jar /storage/emulated/0/Download/Caeruleum/
 cd

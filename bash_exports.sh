@@ -11,10 +11,5 @@ fi
 if [[ -d ~/.config/bash/shells/ ]]; then
   export OGPATH=$OGPATH:~/.config/bash/shells/
 fi
-if [[ -d ~/../usr/bin/ ]]; then
-  export OGPATH=$OGPATH:~/../usr/bin/lua-language-server
-fI
-
-
 
 export PATH=$OGPATH

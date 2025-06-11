@@ -4,7 +4,7 @@
 cd ~
 
 # Get command-line tools for Android SDK
-wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
+wget https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip
 unzip commandlinetools-linux-*.zip -d android/
 
 # Export android root environment variable
@@ -18,7 +18,7 @@ cd android/cmdline-tools/bin
 
 # Install build tools manually
 cd ../../
-wget https://dl.google.com/android/repository/build-tools_r30.0.3-linux.zip
+wget https://dl.google.com/android/repository/build-tools_r35.0.0-linux.zip
 # Unpack and move build tools
 unzip build-tools_*-linux.zip
 mkdir build-tools
